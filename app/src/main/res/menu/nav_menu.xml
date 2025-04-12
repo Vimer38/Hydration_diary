@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/nav_stats"
+            android:title="Статистика"
+            android:icon="@android:drawable/ic_menu_info_details"/>
+        <item
+            android:id="@+id/nav_notification"
+            android:title="Напоминания"
+            android:icon="@android:drawable/ic_menu_recent_history"/>
+        <item
+            android:id="@+id/nav_goals"
+            android:title="Цели по потреблению"
+            android:icon="@android:drawable/star_off"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Настройки"
+            android:icon="@android:drawable/ic_menu_preferences" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Выход"
+            android:icon="@android:drawable/ic_notification_clear_all"/>
+
+</menu>
