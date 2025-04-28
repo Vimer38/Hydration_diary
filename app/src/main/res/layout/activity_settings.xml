@@ -124,15 +124,6 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"/>
 
-            <TextView
-                android:id="@+id/account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSurface"
-                android:text="Учетная запись"
-                android:textSize="20dp"
-                android:padding="20dp"/>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

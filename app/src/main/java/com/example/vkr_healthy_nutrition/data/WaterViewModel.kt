@@ -86,10 +86,12 @@ class WaterViewModel(private val repository: WaterRepository) : ViewModel() {
         _weekWaterState.value = WaterPeriodState.Loading
         viewModelScope.launch {
             try {
+                android.util.Log.d("WaterViewModel", "Loading week water data...")
                 val recordsResult = repository.getWeekWaterRecords()
                 val goalResult = repository.getUserWaterGoal()
 
                 recordsResult.onSuccess { records ->
+                    android.util.Log.d("WaterViewModel", "Week records loaded: ${records.size}")
                     goalResult.onSuccess { goalResponse ->
                         _weekWaterState.postValue(WaterPeriodState.Success(
                             records = records,
@@ -99,10 +101,17 @@ class WaterViewModel(private val repository: WaterRepository) : ViewModel() {
                 }
 
                 when {
-                    recordsResult.isFailure -> _weekWaterState.postValue(WaterPeriodState.Error(recordsResult.exceptionOrNull()?.message ?: "Unknown error"))
-                    goalResult.isFailure -> _weekWaterState.postValue(WaterPeriodState.Error(goalResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    recordsResult.isFailure -> {
+                        android.util.Log.e("WaterViewModel", "Failed to load week records: ${recordsResult.exceptionOrNull()?.message}")
+                        _weekWaterState.postValue(WaterPeriodState.Error(recordsResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    }
+                    goalResult.isFailure -> {
+                        android.util.Log.e("WaterViewModel", "Failed to load goal: ${goalResult.exceptionOrNull()?.message}")
+                        _weekWaterState.postValue(WaterPeriodState.Error(goalResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    }
                 }
             } catch (e: Exception) {
+                android.util.Log.e("WaterViewModel", "Unexpected error in loadWeekWaterData: ${e.message}", e)
                 _weekWaterState.postValue(WaterPeriodState.Error("Unexpected error: ${e.message}"))
             }
         }
@@ -114,10 +123,12 @@ class WaterViewModel(private val repository: WaterRepository) : ViewModel() {
         _monthWaterState.value = WaterPeriodState.Loading
         viewModelScope.launch {
             try {
+                android.util.Log.d("WaterViewModel", "Loading month water data...")
                 val recordsResult = repository.getMonthWaterRecords()
                 val goalResult = repository.getUserWaterGoal()
 
                 recordsResult.onSuccess { records ->
+                    android.util.Log.d("WaterViewModel", "Month records loaded: ${records.size}")
                     goalResult.onSuccess { goalResponse ->
                         _monthWaterState.postValue(WaterPeriodState.Success(
                             records = records,
@@ -127,10 +138,17 @@ class WaterViewModel(private val repository: WaterRepository) : ViewModel() {
                 }
 
                 when {
-                    recordsResult.isFailure -> _monthWaterState.postValue(WaterPeriodState.Error(recordsResult.exceptionOrNull()?.message ?: "Unknown error"))
-                    goalResult.isFailure -> _monthWaterState.postValue(WaterPeriodState.Error(goalResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    recordsResult.isFailure -> {
+                        android.util.Log.e("WaterViewModel", "Failed to load month records: ${recordsResult.exceptionOrNull()?.message}")
+                        _monthWaterState.postValue(WaterPeriodState.Error(recordsResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    }
+                    goalResult.isFailure -> {
+                        android.util.Log.e("WaterViewModel", "Failed to load goal: ${goalResult.exceptionOrNull()?.message}")
+                        _monthWaterState.postValue(WaterPeriodState.Error(goalResult.exceptionOrNull()?.message ?: "Unknown error"))
+                    }
                 }
             } catch (e: Exception) {
+                android.util.Log.e("WaterViewModel", "Unexpected error in loadMonthWaterData: ${e.message}", e)
                 _monthWaterState.postValue(WaterPeriodState.Error("Unexpected error: ${e.message}"))
             }
         }
