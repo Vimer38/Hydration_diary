@@ -2,16 +2,15 @@ package com.example.vkr_healthy_nutrition.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.vkr_healthy_nutrition.data.repository.WaterRepository
 
 // WaterIntakeViewModelFactory.kt
-class WaterIntakeViewModelFactory(
-    private val repository: WaterIntakeRepository
-) : ViewModelProvider.Factory {
+class WaterIntakeViewModelFactory(private val repository: WaterRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(WaterIntakeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(WaterViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return WaterIntakeViewModel(repository) as T
+            return WaterViewModel(repository) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        throw IllegalArgumentException("Unknown ViewModel class for WaterIntakeViewModelFactory")
     }
 }

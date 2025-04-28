@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#03A9F4</color>
-    <color name="primary_light">#C3BCC8</color>
-    <color name="blue_200">#90CAF9</color>
-    <color name="blue_500">#2196F3</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <!-- Цвета по умолчанию -->
+    <color name="primary_default">#FF6200EE</color>
+    <color name="secondary_default">#FF03DAC5</color>
+
+    <!-- Синяя цветовая схема -->
+    <color name="primary_blue">#FF2196F3</color>
+    <color name="secondary_blue">#FF64B5F6</color>
+
+    <!-- Зеленая цветовая схема -->
+    <color name="primary_green">#FF4CAF50</color>
+    <color name="secondary_green">#FF81C784</color>
+
+    <!-- Фиолетовая цветовая схема -->
+    <color name="primary_purple">#FF9C27B0</color>
+    <color name="secondary_purple">#FFBA68C8</color>
+
+    <!-- Общие цвета -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
