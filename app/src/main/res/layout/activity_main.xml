@@ -33,7 +33,6 @@
                 android:id="@+id/water_intake_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Общее потребление воды: 0 мл / 2000 мл"
                 android:textSize="18sp" />
 
             <ProgressBar

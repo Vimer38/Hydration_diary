@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Трекер воды</string>
+    <string name="app_name">Дневник Гидратации</string>
     <string name="open">Открыть меню</string>
     <string name="close">Закрыть меню</string>
     <!-- Preference Titles -->

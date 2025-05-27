@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@android:color/white">
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/chart"
+        android:id="@+id/stats_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

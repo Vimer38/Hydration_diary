@@ -9,7 +9,7 @@ import com.example.vkr_healthy_nutrition.ui.stats.StatsViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class StatsActivity : AppCompatActivity() {
+class StatsActivity : BaseActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.devtoolsKsp)
     id("kotlin-kapt") // Исправлено: правильный способ подключения kapt
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -60,10 +61,25 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Обработчики Room
-    ksp(libs.androidx.room.compiler)  // Для KSP (используйте только один вариант)
+    kapt(libs.androidx.room.compiler)  // Используем kapt с плагином kotlin-kapt
 
     // Тестирование
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Mockito for local tests
+    testImplementation("org.mockito:mockito-core:5.8.0") // Используйте актуальную версию
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0") // Используйте актуальную версию
+
+    // Robolectric for local tests
+    testImplementation("org.robolectric:robolectric:4.9") // Используйте актуальную версию
+
+    // Coroutines test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0") // Используйте актуальную версию
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx") // Firestore может быть полезен для хранения данных пользователя
 }

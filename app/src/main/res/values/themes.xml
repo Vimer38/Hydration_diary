@@ -1,13 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.VKR_Healthy_Nutrition" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/primary_default</item>
-        <item name="colorPrimaryVariant">@color/primary_default</item>
-        <item name="colorSecondary">@color/secondary_default</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="colorSurface">@color/white</item>
+    <style name="Theme.HealthyNutrition" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/status_bar</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorError">@color/error</item>
     </style>
 
-    <style name="Theme.VKR_Healthy_Nutrition" parent="Base.Theme.VKR_Healthy_Nutrition" />
+    <!-- No ActionBar theme (can remove this if main theme is NoActionBar) -->
+    <!-- <style name="Theme.HealthyNutrition.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style> -->
 </resources>

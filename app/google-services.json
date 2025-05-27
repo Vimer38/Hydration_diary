@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900954709414",
+    "project_id": "hydratation-diary",
+    "storage_bucket": "hydratation-diary.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900954709414:android:0304006620ab14e9310367",
+        "android_client_info": {
+          "package_name": "com.example.vkr_healthy_nutrition"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0BHKAdCCpJ5cknHtqyLTlSBJCMdHfX14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

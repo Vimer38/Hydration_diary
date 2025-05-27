@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Цвета по умолчанию -->
-    <color name="primary_default">#FF6200EE</color>
-    <color name="secondary_default">#FF03DAC5</color>
-
-    <!-- Синяя цветовая схема -->
-    <color name="primary_blue">#FF2196F3</color>
-    <color name="secondary_blue">#FF64B5F6</color>
-
-    <!-- Зеленая цветовая схема -->
-    <color name="primary_green">#FF4CAF50</color>
-    <color name="secondary_green">#FF81C784</color>
-
-    <!-- Фиолетовая цветовая схема -->
-    <color name="primary_purple">#FF9C27B0</color>
-    <color name="secondary_purple">#FFBA68C8</color>
-
-    <!-- Общие цвета -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Basic app colors -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#03A9F4</color>
+    
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    
+    <!-- Background colors -->
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    
+    <!-- Status bar color -->
+    <color name="status_bar">#1976D2</color>
+
+    <!-- Default scheme colors (already have primary, primary_dark, accent above) -->
+
+    <!-- Blue scheme colors -->
+    <color name="blue_primary">#2196F3</color>
+    <color name="blue_primary_dark">#1976D2</color>
+    <color name="blue_accent">#03A9F4</color>
+
+    <!-- Green scheme colors -->
+    <color name="green_primary">#4CAF50</color>
+    <color name="green_primary_dark">#388E3C</color>
+    <color name="green_accent">#8BC34A</color>
+
+    <!-- Purple scheme colors -->
+    <color name="purple_primary">#9C27B0</color>
+    <color name="purple_primary_dark">#7B1FA2</color>
+    <color name="purple_accent">#E040FB</color>
 </resources>

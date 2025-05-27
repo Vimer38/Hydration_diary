@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.devtoolsKsp) apply false
     kotlin("jvm")
+    id("com.google.gms.google-services") version "4.4.1" apply false
 }
 
 dependencies {

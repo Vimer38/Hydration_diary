@@ -9,9 +9,9 @@ class StatsViewPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(a
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> DayStatsFragment.newInstance()
-            1 -> WeekStatsFragment.newInstance()
-            2 -> MonthStatsFragment.newInstance()
+            0 -> DayStatsFragment()
+            1 -> WeekStatsFragment()
+            2 -> MonthStatsFragment()
             else -> throw IllegalArgumentException("Invalid position $position")
         }
     }

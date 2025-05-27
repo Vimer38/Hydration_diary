@@ -10,7 +10,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="10dp" /> <!-- Установите радиус закругления -->
-                <solid android:color="#3F51B5" /> <!-- Цвет прогресса -->
+                <solid android:color="?attr/colorPrimary" /> <!-- Цвет прогресса берется из темы -->
             </shape>
         </clip>
     </item>

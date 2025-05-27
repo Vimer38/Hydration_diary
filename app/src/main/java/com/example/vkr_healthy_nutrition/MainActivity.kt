@@ -13,24 +13,30 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.vkr_healthy_nutrition.data.WaterIntakeViewModelFactory
-import com.example.vkr_healthy_nutrition.data.WaterViewModel
-import com.example.vkr_healthy_nutrition.data.WaterUiState
-import com.example.vkr_healthy_nutrition.data.network.WaterRecordResponse
-import com.example.vkr_healthy_nutrition.data.repository.WaterRepository
+import androidx.lifecycle.lifecycleScope
+import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
+import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
+import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModelFactory
+import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeState
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
+import com.example.vkr_healthy_nutrition.data.local.UserGoalEntity
+import com.example.vkr_healthy_nutrition.dialogs.EditProfileDialog
+import com.example.vkr_healthy_nutrition.ui.viewmodel.NotificationViewModel
+import kotlinx.coroutines.flow.collect
+import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var waterIntakeTextView: TextView
     private lateinit var addWaterButton: Button
@@ -40,8 +46,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var waterProgressBar: ProgressBar
     private lateinit var mainProgressBar: ProgressBar
+    private lateinit var goalTextView: TextView
+    private lateinit var userEmailText: TextView
+    private lateinit var userNameText: TextView
+    private val userRepository by lazy { (application as HealthyNutritionApp).userRepository }
 
-    private lateinit var viewModel: WaterViewModel
+    private val viewModel: WaterIntakeViewModel by viewModels {
+        (application as HealthyNutritionApp).waterIntakeViewModelFactory
+    }
+
+    private val notificationViewModel: NotificationViewModel by viewModels {
+        (application as HealthyNutritionApp).notificationViewModelFactory
+    }
 
     private val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("UTC")
@@ -50,33 +66,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val authPrefs = getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-        val token = authPrefs.getString("jwt_token", null)
-
-        if (token == null) {
-            startActivity(Intent(this, WelcomeActivity::class.java))
+        if (!userRepository.isUserLoggedIn) {
+            startActivity(Intent(this,WelcomeActivity::class.java))
             finish()
             return
         }
-
         setContentView(R.layout.activity_main)
 
-        val repository = WaterRepository(this)
-        val factory = WaterIntakeViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(WaterViewModel::class.java)
-
         initViews()
-
         setupNavigation()
-
-        addWaterButton.setOnClickListener {
-            showAddWaterDialog()
-        }
-
-        updateTotalUI(0, 2000)
-
+        setupClickListeners()
         observeViewModel()
+        observeUserData()
+
+        // Синхронизация данных с Firestore
+        viewModel.syncWaterIntakesFromFirestore()
+        notificationViewModel.syncNotificationSettingsFromFirestore()
     }
 
     override fun onResume() {
@@ -92,6 +97,16 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
         mainProgressBar = findViewById(R.id.main_progress_bar)
+        goalTextView = findViewById(R.id.water_intake_text_view)
+
+        // Инициализация views для информации о пользователе
+        userEmailText = navigationView.getHeaderView(0).findViewById(R.id.user_email_text)
+        userNameText = navigationView.getHeaderView(0).findViewById(R.id.user_name_text)
+
+        // Добавляем обработчик нажатия на имя пользователя
+        userNameText.setOnClickListener {
+            showEditProfileDialog()
+        }
     }
 
     private fun setupNavigation() {
@@ -103,6 +118,12 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             handleNavigationItemSelected(menuItem)
             true
+        }
+    }
+
+    private fun setupClickListeners() {
+        addWaterButton.setOnClickListener {
+            showAddWaterDialog()
         }
     }
 
@@ -118,79 +139,63 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.todayWaterState.observe(this, Observer { state: WaterUiState ->
-            if (state !is WaterUiState.Idle) mainProgressBar.visibility = View.GONE
-
-            when (state) {
-                is WaterUiState.Loading -> {
-                    mainProgressBar.visibility = View.VISIBLE
-                    addWaterButton.isEnabled = false
-                }
-                is WaterUiState.Success -> {
-                    addWaterButton.isEnabled = true
-                    updateTotalUI(state.total, state.goal)
-                    updateDailyStats(state.records)
-                }
-                is WaterUiState.Error -> {
-                    addWaterButton.isEnabled = true
-                    Toast.makeText(this, "Ошибка загрузки данных: ${state.message}", Toast.LENGTH_LONG).show()
-                    updateTotalUI(0, 2000)
-                    updateDailyStats(emptyList())
-                }
-                is WaterUiState.Idle -> {
-                    addWaterButton.isEnabled = true
-                }
-            }
-        })
-
-        viewModel.addWaterResult.observe(this, Observer { result: Result<WaterRecordResponse>? ->
-            if (result == null) return@Observer
-
-            when {
-                result.isSuccess -> {
-                    Toast.makeText(this, "Вода добавлена!", Toast.LENGTH_SHORT).show()
-                }
-                result.isFailure -> {
-                    Toast.makeText(this, "Ошибка добавления: ${result.exceptionOrNull()?.message}", Toast.LENGTH_LONG).show()
+        lifecycleScope.launch {
+            viewModel.state.collectLatest { state ->
+                when (state) {
+                    is WaterIntakeState.Loading -> {
+                        mainProgressBar.visibility = View.VISIBLE
+                        addWaterButton.isEnabled = false
+                    }
+                    is WaterIntakeState.Success -> {
+                        mainProgressBar.visibility = View.GONE
+                        addWaterButton.isEnabled = true
+                        updateDailyStats(state.records)
+                        updateTotalUI(state.total)
+                    }
+                    is WaterIntakeState.Error -> {
+                        mainProgressBar.visibility = View.GONE
+                        addWaterButton.isEnabled = true
+                        Toast.makeText(this@MainActivity, "Ошибка: ${state.message}", Toast.LENGTH_LONG).show()
+                        updateDailyStats(emptyList())
+                        updateTotalUI(0)
+                    }
+                    else -> {
+                        mainProgressBar.visibility = View.GONE
+                        addWaterButton.isEnabled = true
+                    }
                 }
             }
-        })
+        }
+
+        lifecycleScope.launch {
+            viewModel.userWaterGoal.collect { userGoalEntity ->
+                if (userGoalEntity != null) {
+                    goalTextView.text = "Ваша цель: ${userGoalEntity.waterGoal} мл"
+                    waterProgressBar.max = userGoalEntity.waterGoal
+                } else {
+                    goalTextView.text = "Цель не установлена"
+                    waterProgressBar.max = 0
+                }
+            }
+        }
     }
 
-    private fun updateTotalUI(total: Int, goal: Int) {
-        waterProgressBar.max = goal
+    private fun updateTotalUI(total: Int) {
         waterProgressBar.progress = total
-        waterIntakeTextView.text = "Общее потребление воды: ${total} мл / ${goal} мл"
     }
 
-    private fun updateDailyStats(records: List<WaterRecordResponse>) {
+    private fun updateDailyStats(records: List<com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity>) {
         val statsBuilder = StringBuilder("Статистика потребления воды:\n")
         var totalToday = 0
 
-        val sortedRecords = records.sortedByDescending { parseIsoDate(it.record_time) }
-
-        for (record in sortedRecords) {
-            val date = parseIsoDate(record.record_time)
-            val timeString = date?.let { displayTimeFormat.format(it) } ?: "??:??:??"
+        for (record in records.sortedByDescending { it.timestamp }) {
+            val timeString = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date(record.timestamp))
             statsBuilder.append("$timeString: ${record.amount} мл\n")
             totalToday += record.amount
         }
 
         statsBuilder.append("\nВсего за сегодня: $totalToday мл")
         dailyStatsTextView.text = statsBuilder.toString()
-    }
-
-    private fun parseIsoDate(dateString: String?): java.util.Date? {
-        return if (dateString != null) {
-            try {
-                isoFormat.parse(dateString)
-            } catch (e: ParseException) {
-                Log.e("MainActivity", "Error parsing date: $dateString", e)
-                null
-            }
-        } else {
-            null
-        }
     }
 
     private fun showAddWaterDialog() {
@@ -216,30 +221,55 @@ class MainActivity : AppCompatActivity() {
         builder.show()
     }
 
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Подтверждение выхода")
+            .setMessage("Вы уверены, что хотите выйти?")
+            .setPositiveButton("Да") { dialog, which ->
+                // Выполняем выход
+                lifecycleScope.launch {
+                    userRepository.signOut()
+                    startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
+                    finish()
+                }
+            }
+            .setNegativeButton("Отмена") { dialog, which ->
+                // Отменяем выход
+                dialog.dismiss()
+            }
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    private fun observeUserData() {
+        lifecycleScope.launch {
+            userRepository.getUserFlow().collect { user ->
+                user?.let {
+                    userEmailText.text = it.email
+                    userNameText.text = it.displayName ?: "Пользователь"
+                }
+            }
+        }
+    }
+
+    private fun showEditProfileDialog() {
+        EditProfileDialog(this, userNameText.text.toString()) { newName ->
+            lifecycleScope.launch {
+                userRepository.updateProfile(newName)
+                    .onSuccess {
+                        Toast.makeText(this@MainActivity, "Профиль обновлен", Toast.LENGTH_SHORT).show()
+                    }
+                    .onFailure {
+                        Toast.makeText(this@MainActivity, "Ошибка обновления профиля: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }.show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showLogoutConfirmationDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Подтверждение выхода")
-        builder.setMessage("Вы уверены, что хотите выйти?")
-        builder.setPositiveButton("Да") { _, _ ->
-            val authPrefs = getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-            val editor = authPrefs.edit()
-            editor.remove("jwt_token")
-            editor.apply()
-
-            val userPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-            userPrefs.edit().clear().apply()
-
-            startActivity(Intent(this, WelcomeActivity::class.java))
-            finish()
-        }
-        builder.setNegativeButton("Нет") { _, _ -> }
-        builder.show()
     }
 }
