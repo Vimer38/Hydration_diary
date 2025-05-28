@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -53,9 +54,14 @@ class WeekStatsFragment : Fragment() {
         calendar.set(java.util.Calendar.MINUTE, 0)
         calendar.set(java.util.Calendar.SECOND, 0)
         calendar.set(java.util.Calendar.MILLISECOND, 0)
+
+        // Устанавливаем текущий день как конец периода
         val endOfDay = calendar.timeInMillis
+
+        // Отнимаем 6 дней для получения начала недели (7 дней включая текущий)
         calendar.add(java.util.Calendar.DAY_OF_MONTH, -6)
         val startOfWeek = calendar.timeInMillis
+
         viewModel.loadStatsForPeriod(startOfWeek, endOfDay)
     }
 
@@ -102,10 +108,21 @@ class WeekStatsFragment : Fragment() {
             recordsInDay.sumOf { it.amount }
         }
 
-        val entries = (1..7).map { dayOfWeek ->
-            val totalAmount = entriesByDay[getDayOfWeekConstant(dayOfWeek)] ?: 0
-            BarEntry(getDayOfWeekIndex(dayOfWeek).toFloat(), totalAmount.toFloat())
-        }.sortedBy { it.x }
+        // Измененный порядок дней недели - начинаем с понедельника
+        val weekDaysOrder = listOf(
+            Calendar.MONDAY,
+            Calendar.TUESDAY,
+            Calendar.WEDNESDAY,
+            Calendar.THURSDAY,
+            Calendar.FRIDAY,
+            Calendar.SATURDAY,
+            Calendar.SUNDAY
+        )
+
+        val entries = weekDaysOrder.mapIndexed { index, dayOfWeek ->
+            val totalAmount = entriesByDay[dayOfWeek] ?: 0
+            BarEntry(index.toFloat(), totalAmount.toFloat())
+        }
 
         val dataSet = BarDataSet(entries, "Объем воды (мл)")
         dataSet.color = android.graphics.Color.BLUE
@@ -125,7 +142,8 @@ class WeekStatsFragment : Fragment() {
         xAxis.textColor = android.graphics.Color.BLACK
         xAxis.axisLineColor = android.graphics.Color.BLACK
 
-        val weekdays = arrayOf("Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб")
+        // Измененные подписи - начинаем с понедельника
+        val weekdays = arrayOf("Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
         xAxis.valueFormatter = IndexAxisValueFormatter(weekdays)
         xAxis.setLabelCount(weekdays.size, false)
 
@@ -143,30 +161,4 @@ class WeekStatsFragment : Fragment() {
 
         statsChart.invalidate()
     }
-
-    private fun getDayOfWeekConstant(dayOfWeek: Int): Int {
-        return when (dayOfWeek) {
-            1 -> Calendar.SUNDAY
-            2 -> Calendar.MONDAY
-            3 -> Calendar.TUESDAY
-            4 -> Calendar.WEDNESDAY
-            5 -> Calendar.THURSDAY
-            6 -> Calendar.FRIDAY
-            7 -> Calendar.SATURDAY
-            else -> throw IllegalArgumentException("Invalid day of week: $dayOfWeek")
-        }
-    }
-
-    private fun getDayOfWeekIndex(dayOfWeek: Int): Int {
-        return when (dayOfWeek) {
-            Calendar.SUNDAY -> 0
-            Calendar.MONDAY -> 1
-            Calendar.TUESDAY -> 2
-            Calendar.WEDNESDAY -> 3
-            Calendar.THURSDAY -> 4
-            Calendar.FRIDAY -> 5
-            Calendar.SATURDAY -> 6
-            else -> throw IllegalArgumentException("Invalid day of week constant: $dayOfWeek")
-        }
-    }
-} 
+}

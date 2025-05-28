@@ -99,7 +99,7 @@ class WaterIntakeActivity : BaseActivity() {
             resultTextView.text = "Рекомендуемое количество воды: $finalGoal мл"
             waterIntakeViewModel.saveWaterGoal(finalGoal)
 
-            Toast.makeText(this, "Цель сохранена локально!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Цель сохранена!", Toast.LENGTH_SHORT).show()
         } else {
             resultTextView.text = "Пожалуйста, введите корректный вес."
         }

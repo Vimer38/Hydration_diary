@@ -1,24 +1,15 @@
 package com.example.vkr_healthy_nutrition
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.vkr_healthy_nutrition.ui.viewmodel.SettingsViewModel
-import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
 import com.example.vkr_healthy_nutrition.ui.viewmodel.SettingsViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,6 +19,7 @@ class SettingsActivity : BaseActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var themeRadioGroup: RadioGroup
     private lateinit var colorSchemeRadioGroup: RadioGroup
+    private var isInitialLoad = true // Флаг для отслеживания начальной загрузки
 
     private val viewModel: SettingsViewModel by viewModels {
         SettingsViewModelFactory(this.themeSettingsRepository, this.authManager)
@@ -39,8 +31,9 @@ class SettingsActivity : BaseActivity() {
 
         initViews()
         setupToolbar()
-        setupListeners()
-        observeViewModel()
+        observeViewModel() // Сначала наблюдаем за изменениями
+        setupListeners() // Затем устанавливаем слушатели
+        isInitialLoad = false
     }
 
     private fun initViews() {
@@ -74,11 +67,35 @@ class SettingsActivity : BaseActivity() {
             saveThemeSettings()
         }
 
-        // Слушатель для группы выбора цветовой схемы
-        colorSchemeRadioGroup.setOnCheckedChangeListener { _, _ ->
-            // Сохраняем только цветовую схему, тема уже применена выше
+        // Устанавливаем слушатели для каждой радио-кнопки цветовой схемы
+        findViewById<RadioButton>(R.id.radio_default).setOnClickListener {
+            colorSchemeRadioGroup.check(R.id.radio_default)
             saveThemeSettings()
+            showRestartMessage()
         }
+        findViewById<RadioButton>(R.id.radio_blue).setOnClickListener {
+            colorSchemeRadioGroup.check(R.id.radio_blue)
+            saveThemeSettings()
+            showRestartMessage()
+        }
+        findViewById<RadioButton>(R.id.radio_green).setOnClickListener {
+            colorSchemeRadioGroup.check(R.id.radio_green)
+            saveThemeSettings()
+            showRestartMessage()
+        }
+        findViewById<RadioButton>(R.id.radio_purple).setOnClickListener {
+            colorSchemeRadioGroup.check(R.id.radio_purple)
+            saveThemeSettings()
+            showRestartMessage()
+        }
+    }
+
+    private fun showRestartMessage() {
+        android.widget.Toast.makeText(
+            this,
+            "Для применения цветовой схемы необходимо перезапустить приложение",
+            android.widget.Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun observeViewModel() {
