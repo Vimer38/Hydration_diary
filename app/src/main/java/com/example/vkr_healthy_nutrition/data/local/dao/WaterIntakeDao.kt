@@ -1,6 +1,7 @@
-package com.example.vkr_healthy_nutrition.data.local
+package com.example.vkr_healthy_nutrition.data.local.dao
 
 import androidx.room.*
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

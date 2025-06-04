@@ -4,21 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.vkr_healthy_nutrition.data.local.UserGoalEntity
-import com.example.vkr_healthy_nutrition.data.local.UserGoalDao
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeDao
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsEntity
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsDao
-import com.example.vkr_healthy_nutrition.data.local.NotificationSettingsEntity
-import com.example.vkr_healthy_nutrition.data.local.NotificationSettingsDao
-import com.example.vkr_healthy_nutrition.data.local.UserEntity
-import com.example.vkr_healthy_nutrition.data.local.UserDao
+import com.example.vkr_healthy_nutrition.data.local.dao.NotificationSettingsDao
+import com.example.vkr_healthy_nutrition.data.local.dao.ThemeSettingsDao
+import com.example.vkr_healthy_nutrition.data.local.dao.UserDao
+import com.example.vkr_healthy_nutrition.data.local.dao.UserGoalDao
+import com.example.vkr_healthy_nutrition.data.local.dao.WaterIntakeDao
+import com.example.vkr_healthy_nutrition.data.local.entities.NotificationSettingsEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.ThemeSettingsEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.UserEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.UserGoalEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 
 @Database(entities = [
-    WaterIntakeEntity::class, 
-    UserGoalEntity::class, 
-    ThemeSettingsEntity::class, 
+    WaterIntakeEntity::class,
+    UserGoalEntity::class,
+    ThemeSettingsEntity::class,
     NotificationSettingsEntity::class,
     UserEntity::class
 ], version = 5, exportSchema = false)

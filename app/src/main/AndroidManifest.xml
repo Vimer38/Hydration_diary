@@ -20,25 +20,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthyNutrition"
         tools:targetApi="31"
-        android:name=".HealthyNutritionApp">
+        android:name=".core.HealthyNutritionApp">
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:exported="false"
             android:configChanges="uiMode|screenSize|orientation"/>
         <activity
-            android:name=".NotificationActivity"
+            android:name=".ui.activities.NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".StatsActivity"
+            android:name=".ui.activities.StatsActivity"
             android:exported="false" />
         <activity
-            android:name=".WaterIntakeActivity"
+            android:name=".ui.activities.WaterIntakeActivity"
             android:exported="false" />
-        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".ui.activities.WelcomeActivity" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <receiver android:name=".WaterReminderReceiver" android:exported="true"/>
+        <receiver android:name=".ui.receivers.WaterReminderReceiver" android:exported="true"/>
     </application>
 
 </manifest>

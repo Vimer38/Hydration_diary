@@ -8,8 +8,8 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.vkr_healthy_nutrition.WaterReminderReceiver
-import com.example.vkr_healthy_nutrition.data.local.NotificationSettingsEntity
+import com.example.vkr_healthy_nutrition.ui.receivers.WaterReminderReceiver
+import com.example.vkr_healthy_nutrition.data.local.entities.NotificationSettingsEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

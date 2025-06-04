@@ -48,7 +48,7 @@ class HealthyNutritionApp : Application() {
         )
     }
 
-    // Фабрика для WaterIntakeViewModel, теперь с userRepository
+    // Фабрика для WaterIntakeViewModel
     val waterIntakeViewModelFactory: WaterIntakeViewModelFactory by lazy {
         WaterIntakeViewModelFactory(waterIntakeRepository, userRepository)
     }

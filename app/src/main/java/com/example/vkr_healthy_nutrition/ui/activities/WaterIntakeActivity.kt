@@ -1,6 +1,5 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -9,13 +8,13 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
 import androidx.lifecycle.ViewModelProvider
+import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
+import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
-import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModelFactory
-import java.util.Timer
 
 class WaterIntakeActivity : BaseActivity() {
 

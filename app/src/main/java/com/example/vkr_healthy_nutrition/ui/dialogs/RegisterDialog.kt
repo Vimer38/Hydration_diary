@@ -1,4 +1,4 @@
-package com.example.vkr_healthy_nutrition.dialogs
+package com.example.vkr_healthy_nutrition.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context

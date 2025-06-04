@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel // Убедитесь, что путь к ViewModel правильный
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity // Убедитесь, что путь к Entity правильный
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity // Убедитесь, что путь к Entity правильный
 import androidx.lifecycle.lifecycleScope
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeState

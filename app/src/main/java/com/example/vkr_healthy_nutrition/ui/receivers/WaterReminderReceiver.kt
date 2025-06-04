@@ -1,4 +1,4 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.receivers
 
 import android.app.AlarmManager
 import android.content.BroadcastReceiver
@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.util.Log
+import com.example.vkr_healthy_nutrition.ui.activities.NotificationActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class WaterReminderReceiver : BroadcastReceiver() {

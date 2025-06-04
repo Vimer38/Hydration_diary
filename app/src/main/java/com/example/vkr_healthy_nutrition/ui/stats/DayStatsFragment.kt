@@ -4,15 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
-import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModelFactory
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +18,6 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarData
-import java.util.concurrent.TimeUnit
 
 class DayStatsFragment : Fragment() {
     private val viewModel: WaterIntakeViewModel by activityViewModels {

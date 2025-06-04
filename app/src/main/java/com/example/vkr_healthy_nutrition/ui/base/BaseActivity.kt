@@ -1,16 +1,11 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.base
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.ui.viewmodel.SettingsViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import com.example.vkr_healthy_nutrition.R // Импортируем R для доступа к ресурсам
 import com.example.vkr_healthy_nutrition.data.repository.ThemeSettingsRepository
 import com.example.vkr_healthy_nutrition.data.local.AppDatabase

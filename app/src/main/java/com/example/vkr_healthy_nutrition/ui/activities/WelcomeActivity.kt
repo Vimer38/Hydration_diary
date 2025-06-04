@@ -1,14 +1,18 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.dialogs.LoginDialog
-import com.example.vkr_healthy_nutrition.dialogs.RegisterDialog
+import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.R
+import com.example.vkr_healthy_nutrition.ui.dialogs.LoginDialog
+import com.example.vkr_healthy_nutrition.ui.dialogs.RegisterDialog
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
@@ -51,8 +55,8 @@ class WelcomeActivity : AppCompatActivity() {
                     }
                     .onFailure {
                         val errorMessage = when (it) {
-                            is com.google.firebase.auth.FirebaseAuthInvalidUserException -> "Ошибка входа: Пользователь не найден."
-                            is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException -> "Ошибка входа: Неверный пароль."
+                            is FirebaseAuthInvalidUserException -> "Ошибка входа: Пользователь не найден."
+                            is FirebaseAuthInvalidCredentialsException -> "Ошибка входа: Неверный пароль."
                             else -> "Ошибка входа: ${it.message ?: "Неизвестная ошибка"}"
                         }
                         Toast.makeText(this@WelcomeActivity, errorMessage, Toast.LENGTH_SHORT).show()
@@ -70,8 +74,8 @@ class WelcomeActivity : AppCompatActivity() {
                     }
                     .onFailure {
                          val errorMessage = when (it) {
-                            is com.google.firebase.auth.FirebaseAuthUserCollisionException -> "Ошибка регистрации: Пользователь с таким email уже существует."
-                            is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException -> "Ошибка регистрации: Некорректный email или пароль."
+                            is FirebaseAuthUserCollisionException -> "Ошибка регистрации: Пользователь с таким email уже существует."
+                            is FirebaseAuthInvalidCredentialsException -> "Ошибка регистрации: Некорректный email или пароль."
                             else -> "Ошибка регистрации: ${it.message ?: "Неизвестная ошибка"}"
                         }
                         Toast.makeText(this@WelcomeActivity, errorMessage, Toast.LENGTH_SHORT).show()

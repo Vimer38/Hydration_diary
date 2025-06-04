@@ -1,10 +1,11 @@
-package com.example.vkr_healthy_nutrition.data.local
+package com.example.vkr_healthy_nutrition.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.vkr_healthy_nutrition.data.local.entities.UserEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

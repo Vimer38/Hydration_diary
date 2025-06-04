@@ -1,16 +1,14 @@
 package com.example.vkr_healthy_nutrition.data.repository
 
 import android.util.Log // Import Log
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
-import com.example.vkr_healthy_nutrition.data.local.UserGoalDao
-import com.example.vkr_healthy_nutrition.data.local.UserGoalEntity
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeDao
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.UserGoalDao
+import com.example.vkr_healthy_nutrition.data.local.entities.UserGoalEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.WaterIntakeDao
 import kotlinx.coroutines.flow.Flow
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await // Import await for Tasks
-import com.google.firebase.firestore.QuerySnapshot // Import QuerySnapshot
-import com.google.firebase.firestore.DocumentSnapshot // Import DocumentSnapshot
 import com.google.firebase.firestore.SetOptions // Import SetOptions
 
 private const val TAG = "WaterIntakeRepository" // Define TAG for logging

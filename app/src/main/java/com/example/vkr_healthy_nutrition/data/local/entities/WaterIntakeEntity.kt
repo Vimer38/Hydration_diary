@@ -1,6 +1,5 @@
-package com.example.vkr_healthy_nutrition.data.local
+package com.example.vkr_healthy_nutrition.data.local.entities
 
-import android.health.connect.datatypes.ExercisePerformanceGoal.AmrapGoal
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

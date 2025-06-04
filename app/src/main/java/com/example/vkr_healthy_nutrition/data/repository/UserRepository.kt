@@ -1,11 +1,10 @@
 package com.example.vkr_healthy_nutrition.data.repository
 
 import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
-import com.example.vkr_healthy_nutrition.data.local.UserDao
-import com.example.vkr_healthy_nutrition.data.local.UserEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.UserDao
+import com.example.vkr_healthy_nutrition.data.local.entities.UserEntity
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(

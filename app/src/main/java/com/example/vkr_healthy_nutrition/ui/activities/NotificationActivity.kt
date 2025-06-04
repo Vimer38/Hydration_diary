@@ -1,4 +1,4 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.activities
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -11,25 +11,26 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
+import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.R
+import com.example.vkr_healthy_nutrition.ui.receivers.WaterReminderReceiver
 import com.example.vkr_healthy_nutrition.ui.viewmodel.NotificationViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
-import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 
 class NotificationActivity : BaseActivity() {
     private val CHANNEL_ID = "water_reminder_channel"

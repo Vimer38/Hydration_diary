@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsDao
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.ThemeSettingsEntity
 import com.example.vkr_healthy_nutrition.data.repository.ThemeSettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

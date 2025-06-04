@@ -1,11 +1,8 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.activities
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -16,25 +13,22 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
+import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
+import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.R
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
-import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModelFactory
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeState
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-import com.example.vkr_healthy_nutrition.data.local.UserGoalEntity
-import com.example.vkr_healthy_nutrition.dialogs.EditProfileDialog
+import com.example.vkr_healthy_nutrition.ui.dialogs.EditProfileDialog
 import com.example.vkr_healthy_nutrition.ui.viewmodel.NotificationViewModel
-import kotlinx.coroutines.flow.collect
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : BaseActivity() {
 
@@ -67,7 +61,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!userRepository.isUserLoggedIn) {
-            startActivity(Intent(this,WelcomeActivity::class.java))
+            startActivity(Intent(this, WelcomeActivity::class.java))
             finish()
             return
         }
@@ -184,7 +178,7 @@ class MainActivity : BaseActivity() {
         waterProgressBar.progress = total
     }
 
-    private fun updateDailyStats(records: List<com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity>) {
+    private fun updateDailyStats(records: List<WaterIntakeEntity>) {
         val statsBuilder = StringBuilder("Статистика потребления воды:\n")
         var totalToday = 0
 

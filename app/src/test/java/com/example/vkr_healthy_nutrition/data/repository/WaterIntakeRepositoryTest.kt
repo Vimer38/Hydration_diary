@@ -1,29 +1,23 @@
 package com.example.vkr_healthy_nutrition.data.repository
 
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeDao
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
-import com.example.vkr_healthy_nutrition.data.local.UserGoalDao
+import com.example.vkr_healthy_nutrition.data.local.dao.WaterIntakeDao
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.UserGoalDao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.OnFailureListener
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.mockito.Mockito.* // Используйте Mockito для мокирования
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import kotlinx.coroutines.tasks.await // Import await for Tasks
-import kotlinx.coroutines.runBlocking // Import runBlocking
-import org.mockito.Mockito.doAnswer
 import org.mockito.Mockito.doReturn
 
 @RunWith(RobolectricTestRunner::class)

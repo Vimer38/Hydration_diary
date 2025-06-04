@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModelFactory
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeState

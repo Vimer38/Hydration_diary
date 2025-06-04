@@ -1,4 +1,4 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.ui.activities
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
+import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
+import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.ui.viewmodel.SettingsViewModel
 import com.example.vkr_healthy_nutrition.ui.viewmodel.SettingsViewModelFactory
 import kotlinx.coroutines.flow.collectLatest

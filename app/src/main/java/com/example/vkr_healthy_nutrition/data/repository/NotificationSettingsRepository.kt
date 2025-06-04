@@ -1,8 +1,8 @@
 package com.example.vkr_healthy_nutrition.data.repository
 
 import android.util.Log // Import Log for logging
-import com.example.vkr_healthy_nutrition.data.local.NotificationSettingsDao
-import com.example.vkr_healthy_nutrition.data.local.NotificationSettingsEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.NotificationSettingsDao
+import com.example.vkr_healthy_nutrition.data.local.entities.NotificationSettingsEntity
 import kotlinx.coroutines.flow.Flow
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth

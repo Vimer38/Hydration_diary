@@ -1,4 +1,4 @@
-package com.example.vkr_healthy_nutrition
+package com.example.vkr_healthy_nutrition.data.local.converters
 
 import androidx.room.TypeConverter
 import java.util.Date

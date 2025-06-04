@@ -1,6 +1,6 @@
 package com.example.vkr_healthy_nutrition.ui.viewmodel
 
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 
 sealed class WaterIntakeState {
     object Idle : WaterIntakeState()

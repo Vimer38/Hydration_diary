@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.auth.FirebaseAuthManager
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsDao
-import com.example.vkr_healthy_nutrition.data.local.ThemeSettingsEntity
+import com.example.vkr_healthy_nutrition.data.local.dao.ThemeSettingsDao
+import com.example.vkr_healthy_nutrition.data.local.entities.ThemeSettingsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers

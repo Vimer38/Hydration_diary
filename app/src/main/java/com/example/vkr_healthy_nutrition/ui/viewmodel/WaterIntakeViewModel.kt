@@ -3,8 +3,8 @@ package com.example.vkr_healthy_nutrition.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.vkr_healthy_nutrition.data.local.UserGoalEntity
-import com.example.vkr_healthy_nutrition.data.local.WaterIntakeEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.UserGoalEntity
+import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.data.repository.UserRepository
 import com.example.vkr_healthy_nutrition.data.repository.WaterIntakeRepository
 import kotlinx.coroutines.flow.Flow
