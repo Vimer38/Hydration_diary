@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await // Import await for Tasks
 import com.google.firebase.firestore.SetOptions // Import SetOptions
 
-private const val TAG = "WaterIntakeRepository" // Define TAG for logging
+private const val TAG = "WaterIntakeRepository"
 
 class WaterIntakeRepository(
     private val waterIntakeDao: WaterIntakeDao,
@@ -41,7 +41,7 @@ class WaterIntakeRepository(
     }
 
     suspend fun insertWaterIntake(waterIntake: WaterIntakeEntity) {
-        Log.d(TAG, "insertWaterIntake: Saving water intake locally and to Firestore.") // Use Log.d
+        Log.d(TAG, "insertWaterIntake: Saving water intake locally and to Firestore.")
         waterIntakeDao.insertWaterIntake(waterIntake)
         saveWaterIntakeToFirestore(waterIntake)
     }
@@ -61,10 +61,10 @@ class WaterIntakeRepository(
     // Методы для работы с UserGoalEntity
 
     suspend fun saveUserWaterGoal(userId: String, goal: Int) {
-        Log.d(TAG, "saveUserWaterGoal: Saving water goal locally and to Firestore for user $userId: $goal.") // Use Log.d
+        Log.d(TAG, "saveUserWaterGoal: Saving water goal locally and to Firestore for user $userId: $goal.")
         val userGoal = UserGoalEntity(userId = userId, waterGoal = goal)
         userGoalDao.insertOrUpdateGoal(userGoal)
-        saveUserGoalToFirestore(userGoal) // Исправлено с saveWaterIntakeToFirestore
+        saveUserGoalToFirestore(userGoal)
     }
 
     fun getUserWaterGoal(userId: String): Flow<UserGoalEntity?> {
@@ -92,11 +92,11 @@ class WaterIntakeRepository(
     }
 
     suspend fun syncWaterIntakesFromFirestore() {
-        val userId = firebaseAuth.currentUser?.uid ?: run { // Use run for returning from lambda
-            Log.d(TAG, "syncWaterIntakesFromFirestore: User not logged in, cannot sync from Firestore.") // Use Log.d
+        val userId = firebaseAuth.currentUser?.uid ?: run {
+            Log.d(TAG, "syncWaterIntakesFromFirestore: User not logged in, cannot sync from Firestore.")
             return
         }
-        Log.d(TAG, "syncWaterIntakesFromFirestore: Syncing water intakes for user $userId from Firestore.") // Use Log.d
+        Log.d(TAG, "syncWaterIntakesFromFirestore: Syncing water intakes for user $userId from Firestore.")
         try {
             val snapshot = firestore.collection("users").document(userId)
                 .collection("waterIntakes")
@@ -107,51 +107,51 @@ class WaterIntakeRepository(
                 // Map Firestore document to WaterIntakeEntity
                 // You might need to adjust this based on your Firestore document structure
                 // Assuming Firestore document fields match WaterIntakeEntity properties
-                Log.d(TAG, "syncWaterIntakesFromFirestore: Mapping document ${document.id} to WaterIntakeEntity.") // Use Log.d
-                document.toObject(WaterIntakeEntity::class.java)?.copy(id = 0) // Room generates ID
+                Log.d(TAG, "syncWaterIntakesFromFirestore: Mapping document ${document.id} to WaterIntakeEntity.")
+                document.toObject(WaterIntakeEntity::class.java)?.copy(id = 0)
             }
 
-            Log.d(TAG, "syncWaterIntakesFromFirestore: Found ${waterIntakes.size} water intakes in Firestore.") // Use Log.d
+            Log.d(TAG, "syncWaterIntakesFromFirestore: Found ${waterIntakes.size} water intakes in Firestore.")
 
-            // Clear existing local data for the user and insert fresh data from Firestore
-            Log.d(TAG, "syncWaterIntakesFromFirestore: Deleting all local water intakes for user $userId.") // Use Log.d
+
+            Log.d(TAG, "syncWaterIntakesFromFirestore: Deleting all local water intakes for user $userId.")
             waterIntakeDao.deleteAllWaterIntakesForUser(userId)
-            Log.d(TAG, "syncWaterIntakesFromFirestore: Inserting ${waterIntakes.size} water intakes into local DB.") // Use Log.d
+            Log.d(TAG, "syncWaterIntakesFromFirestore: Inserting ${waterIntakes.size} water intakes into local DB.")
             waterIntakes.forEach { waterIntakeDao.insertWaterIntake(it) }
 
-            Log.d(TAG, "syncWaterIntakesFromFirestore: Synced ${waterIntakes.size} water intakes from Firestore.") // Use Log.d
+            Log.d(TAG, "syncWaterIntakesFromFirestore: Synced ${waterIntakes.size} water intakes from Firestore.")
 
         } catch (e: Exception) {
-            Log.e(TAG, "syncWaterIntakesFromFirestore: Error syncing water intakes from Firestore", e) // Use Log.e
+            Log.e(TAG, "syncWaterIntakesFromFirestore: Error syncing water intakes from Firestore", e)
         }
     }
 
     // Добавляем функцию для сохранения цели пользователя в Firestore
     private suspend fun saveUserGoalToFirestore(userGoal: UserGoalEntity) {
         val userId = firebaseAuth.currentUser?.uid ?: run {
-            Log.d(TAG, "saveUserGoalToFirestore: User not logged in, cannot save goal to Firestore.") // Use Log.d
+            Log.d(TAG, "saveUserGoalToFirestore: User not logged in, cannot save goal to Firestore.")
             return
         }
         if (userGoal.userId != userId) {
             Log.d(TAG, "saveUserGoalToFirestore: User ID mismatch. Cannot save goal.")
             return
         }
-        Log.d(TAG, "saveUserGoalToFirestore: Saving user goal for user $userId: ${userGoal.waterGoal}.") // Use Log.d
+        Log.d(TAG, "saveUserGoalToFirestore: Saving user goal for user $userId: ${userGoal.waterGoal}.")
         firestore.collection("users").document(userId)
             .collection("goals") // Новая подколлекция для целей
             .document("waterGoal") // Используем фиксированный ID для документа цели по воде
             .set(userGoal, SetOptions.merge()) // Используем set с merge для частичного обновления
             .await()
-        Log.d(TAG, "saveUserGoalToFirestore: User goal saved to Firestore for user $userId.") // Use Log.d
+        Log.d(TAG, "saveUserGoalToFirestore: User goal saved to Firestore for user $userId.")
     }
 
     // Добавляем функцию для синхронизации цели пользователя из Firestore
     suspend fun syncUserGoalsFromFirestore() {
-        val userId = firebaseAuth.currentUser?.uid ?: run { // Use run for returning from lambda
-            Log.d(TAG, "syncUserGoalsFromFirestore: User not logged in, cannot sync goals from Firestore.") // Use Log.d
+        val userId = firebaseAuth.currentUser?.uid ?: run {
+            Log.d(TAG, "syncUserGoalsFromFirestore: User not logged in, cannot sync goals from Firestore.")
             return
         }
-        Log.d(TAG, "syncUserGoalsFromFirestore: Syncing user goals for user $userId from Firestore.") // Use Log.d
+        Log.d(TAG, "syncUserGoalsFromFirestore: Syncing user goals for user $userId from Firestore.")
         try {
             val document = firestore.collection("users").document(userId)
                 .collection("goals")
@@ -162,17 +162,17 @@ class WaterIntakeRepository(
             val userGoal = document.toObject(UserGoalEntity::class.java)
 
             if (userGoal != null) {
-                Log.d(TAG, "syncUserGoalsFromFirestore: Found user goal in Firestore for user $userId. Saving locally: ${userGoal.waterGoal}.") // Use Log.d
+                Log.d(TAG, "syncUserGoalsFromFirestore: Found user goal in Firestore for user $userId. Saving locally: ${userGoal.waterGoal}.")
                 userGoalDao.insertOrUpdateGoal(userGoal)
             } else {
-                Log.d(TAG, "syncUserGoalsFromFirestore: No user goal found in Firestore for user $userId.") // Use Log.d
-                // Опционально: создать дефолтную цель локально, если ее нет нигде
+                Log.d(TAG, "syncUserGoalsFromFirestore: No user goal found in Firestore for user $userId.")
+
             }
 
-            Log.d(TAG, "syncUserGoalsFromFirestore: Synced user goals from Firestore for user $userId.") // Use Log.d
+            Log.d(TAG, "syncUserGoalsFromFirestore: Synced user goals from Firestore for user $userId.")
 
         } catch (e: Exception) {
-            Log.e(TAG, "syncUserGoalsFromFirestore: Error syncing user goals from Firestore", e) // Use Log.e
+            Log.e(TAG, "syncUserGoalsFromFirestore: Error syncing user goals from Firestore", e)
         }
     }
 }

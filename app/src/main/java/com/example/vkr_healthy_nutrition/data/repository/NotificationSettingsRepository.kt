@@ -47,7 +47,7 @@ class NotificationSettingsRepository(
     suspend fun updateNotificationStatus(userId: String, isEnabled: Boolean) {
         notificationSettingsDao.updateNotificationStatus(userId, isEnabled)
         // Получаем текущие настройки, чтобы обновить их в Firestore
-        val currentSettings = notificationSettingsDao.getNotificationSettings(userId).firstOrNull() // Need firstOrNull from kotlinx.coroutines.flow
+        val currentSettings = notificationSettingsDao.getNotificationSettings(userId).firstOrNull()
         currentSettings?.copy(isEnabled = isEnabled)?.let { saveNotificationSettingsToFirestore(it) }
     }
 
@@ -65,7 +65,7 @@ class NotificationSettingsRepository(
         firestore.collection("users").document(userId)
             .collection("notificationSettings")
             .document(userId) // Используем userId как ID документа, так как у пользователя только один набор настроек
-            .set(settings, SetOptions.merge()) // Используем set с merge для частичного обновления
+            .set(settings, SetOptions.merge())
             .await()
         Log.d(TAG, "saveNotificationSettingsToFirestore: Settings saved to Firestore for user $userId.")
     }
