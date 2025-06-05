@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
@@ -117,8 +117,6 @@ class DayStatsFragment : Fragment() {
                 return value.toInt().toString() + " ч" // Отображаем только час
             }
         }
-        // Убираем принудительное количество меток
-        // xAxis.setLabelCount(entries.size, true)
 
         // Настраиваем ось Y
         val yAxis = statsChart.axisLeft
