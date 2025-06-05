@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.ui.dialogs.LoginDialog
 import com.example.vkr_healthy_nutrition.ui.dialogs.RegisterDialog

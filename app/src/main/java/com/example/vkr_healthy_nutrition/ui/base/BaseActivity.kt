@@ -38,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity() {
         applyNightMode(latestThemeId)
     }
 
-    // Метод для применения цветовой схемы (теперь вызывается до super.onCreate)
+    // Метод для применения цветовой схемы
     private fun applyColorScheme(colorSchemeId: Int) {
         val newThemeStyle = when (colorSchemeId) {
             R.id.radio_default -> R.style.Theme_HealthyNutrition_Default
@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
         setTheme(newThemeStyle)
     }
 
-    // Метод для применения режима дня/ночи (вызывается до super.onCreate)
+    // Метод для применения режима дня/ночи
     private fun applyNightMode(themeId: Int) {
         when (themeId) {
             R.id.radio_light -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -63,16 +63,13 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    // ViewModel по-прежнему доступен в SettingsActivity через delegation
-    // animateToolbarColorChange() может быть использован, если вы решите анимировать смену цвета Toolbar вручную,
-    // но для простого применения темы на старте активности он не нужен.
 
-    // Анимация цвета для Toolbar (опционально, если хотите анимировать смену цвета)
+    // Анимация цвета для Toolbar
     protected fun animateToolbarColorChange(toolbar: androidx.appcompat.widget.Toolbar, startColor: Int, endColor: Int) {
         val colorAnimator = ValueAnimator.ofObject(
             ArgbEvaluator(),
-            startColor, // Начальный цвет (текущий цвет Toolbar)
-            endColor // Конечный цвет (новый цвет схемы)
+            startColor,
+            endColor
         )
         colorAnimator.duration = 300 // Длительность анимации в миллисекундах
         colorAnimator.interpolator = AccelerateDecelerateInterpolator() // Интерполятор для плавности

@@ -13,25 +13,23 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
-private const val TAG = "WaterIntakeViewModel" // Определяем TAG для логирования
+private const val TAG = "WaterIntakeViewModel"
 
 class WaterIntakeViewModel(
     private val repository: WaterIntakeRepository,
-    private val userRepository: UserRepository // <-- ПРАВИЛЬНО: Получаем UserRepository через конструктор
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow<WaterIntakeState>(WaterIntakeState.Idle)
     val state: StateFlow<WaterIntakeState> = _state
 
-    // Получаем цель пользователя, используя UID из UserRepository
-    // Используем Flow из репозитория, который внутри будет получать актуальный UID
+
     val userWaterGoal: Flow<UserGoalEntity?> = userRepository.currentUser?.uid?.let { userId ->
         repository.getUserWaterGoal(userId)
-    } ?: emptyFlow() // Возвращаем пустой Flow, если пользователь не авторизован
-
+    } ?: emptyFlow()
     fun loadTodayWaterData() {
         viewModelScope.launch {
-            val userId = userRepository.currentUser?.uid // <-- ПРАВИЛЬНО: Получаем UID внутри функции
-            if (userId == null) { // <-- ПРАВИЛЬНО: Проверяем на null
+            val userId = userRepository.currentUser?.uid
+            if (userId == null) {
                 _state.value = WaterIntakeState.Error("Пользователь не авторизован")
                 Log.d(TAG, "loadTodayWaterData: User not logged in.")
                 return@launch
@@ -50,7 +48,6 @@ class WaterIntakeViewModel(
                 calendar.set(java.util.Calendar.SECOND, 59)
                 calendar.set(java.util.Calendar.MILLISECOND, 999)
                 val endOfDay = calendar.timeInMillis
-                // Используем реальный userId при обращении к репозиторию
                 repository.getWaterIntakesForUserInTimeRange(userId, startOfDay, endOfDay)
                     .collect { records ->
                         val total = records.sumOf { it.amount }
@@ -65,19 +62,17 @@ class WaterIntakeViewModel(
 
     fun addWater(amount: Int) {
         viewModelScope.launch {
-            val userId = userRepository.currentUser?.uid // <-- ПРАВИЛЬНО: Получаем UID внутри функции
-            if (userId == null) { // <-- ПРАВИЛЬНО: Проверяем на null
+            val userId = userRepository.currentUser?.uid
+            if (userId == null) {
                 _state.value = WaterIntakeState.Error("Пользователь не авторизован")
                 Log.d(TAG, "addWater: User not logged in.")
                 return@launch
             }
             Log.d(TAG, "addWater: Using userId $userId to save water intake amount $amount.")
             try {
-                // Создаем WaterIntakeEntity с реальным userId
                 repository.insertWaterIntake(
                     WaterIntakeEntity(userId = userId, amount = amount)
                 )
-                // loadTodayWaterData() // Удалено, так как репозиторий обновит Flow
             } catch (e: Exception) {
                 _state.value = WaterIntakeState.Error(e.message ?: "Ошибка добавления")
                 Log.e(TAG, "addWater: Error adding water intake", e)
@@ -87,17 +82,15 @@ class WaterIntakeViewModel(
 
     fun deleteWaterIntake(waterIntake: WaterIntakeEntity) {
         viewModelScope.launch {
-            val userId = userRepository.currentUser?.uid // <-- ПРАВИЛЬНО: Получаем UID внутри функции
-            if (userId == null) { // <-- ПРАВИЛЬНО: Проверяем на null
+            val userId = userRepository.currentUser?.uid
+            if (userId == null) {
                 _state.value = WaterIntakeState.Error("Пользователь не авторизован")
                 Log.d(TAG, "deleteWaterIntake: User not logged in.")
                 return@launch
             }
             Log.d(TAG, "deleteWaterIntake: Using userId $userId to delete water intake.")
             try {
-                // WaterIntakeEntity уже содержит userId, просто передаем его
                 repository.deleteWaterIntake(waterIntake)
-                // loadTodayWaterData() // Удалено
             } catch (e: Exception) {
                 _state.value = WaterIntakeState.Error(e.message ?: "Ошибка удаления")
                 Log.e(TAG, "deleteWaterIntake: Error deleting water intake", e)
@@ -107,8 +100,8 @@ class WaterIntakeViewModel(
 
     fun loadStatsForPeriod(startTime: Long, endTime: Long) {
         viewModelScope.launch {
-            val userId = userRepository.currentUser?.uid // <-- ПРАВИЛЬНО: Получаем UID внутри функции\
-            if (userId == null) { // <-- ПРАВИЛЬНО: Проверяем на null\
+            val userId = userRepository.currentUser?.uid
+            if (userId == null) {
                 _state.value = WaterIntakeState.Error("Пользователь не авторизован")
                 Log.d(TAG, "loadStatsForPeriod: User not logged in.")
                 return@launch
@@ -116,7 +109,6 @@ class WaterIntakeViewModel(
             Log.d(TAG, "loadStatsForPeriod: Using userId $userId to load stats.")
             _state.value = WaterIntakeState.Loading
             try {
-                // Используем реальный userId при обращении к репозиторию\
                 repository.getWaterIntakesForUserInTimeRange(userId, startTime, endTime)
                 .collect { records ->
                     val total = records.sumOf { it.amount }
@@ -131,14 +123,14 @@ class WaterIntakeViewModel(
 
     fun saveWaterGoal(goal: Int) {
         viewModelScope.launch {
-            val userId = userRepository.currentUser?.uid // <-- ПРАВИЛЬНО: Получаем UID внутри функции\
-            if (userId == null) { // <-- ПРАВИЛЬНО: Проверяем на null\
+            val userId = userRepository.currentUser?.uid
+            if (userId == null) {
                 Log.d(TAG, "saveWaterGoal: User not logged in.")
                 return@launch
             }
             Log.d(TAG, "saveWaterGoal: Using userId $userId to save water goal: $goal.")
             try {
-                // Сохраняем цель, используя реальный userId\
+                // Сохраняем цель, используя userId
                 repository.saveUserWaterGoal(userId, goal)
             } catch (e: Exception) {
                 Log.e(TAG, "saveWaterGoal: Error saving water goal", e)

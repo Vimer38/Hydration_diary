@@ -24,14 +24,14 @@ class SettingsViewModel(
         // Загружаем настройки темы при инициализации для текущего пользователя Firebase
         viewModelScope.launch {
             val firebaseUid = authManager.currentUser?.uid
-            val savedSettings = firebaseUid?.let { repository.getThemeSettings(it).first() } // Используем first() для получения первого значения
+            val savedSettings = firebaseUid?.let { repository.getThemeSettings(it).first() }
 
             if (savedSettings == null) {
                 // Если сохраненных настроек нет, устанавливаем значения по умолчанию
                 val defaultThemeId = R.id.radio_light
                 val defaultColorSchemeId = R.id.radio_default
                 val defaultSettings = ThemeSettingsEntity(
-                    firebaseUid ?: "default_user", // Используем UID Firebase или 'default_user' для неавторизованных
+                    firebaseUid ?: "default_user",
                     defaultThemeId,
                     defaultColorSchemeId
                 )

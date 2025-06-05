@@ -7,7 +7,7 @@ import com.example.vkr_healthy_nutrition.data.repository.UserRepository
 
 class NotificationViewModelFactory(
     private val notificationSettingsRepository: NotificationSettingsRepository,
-    private val userRepository: UserRepository // Assuming NotificationViewModel might need UserRepository for user ID
+    private val userRepository: UserRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NotificationViewModel::class.java)) {

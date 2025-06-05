@@ -15,8 +15,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
+import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
-import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel

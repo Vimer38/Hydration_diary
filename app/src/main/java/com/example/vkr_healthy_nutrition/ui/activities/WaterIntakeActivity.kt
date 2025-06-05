@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 
 import androidx.lifecycle.ViewModelProvider
+import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.ui.base.BaseActivity
-import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
 

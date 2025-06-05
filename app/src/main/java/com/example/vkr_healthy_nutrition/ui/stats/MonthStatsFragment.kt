@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.vkr_healthy_nutrition.core.HealthyNutritionApp
+import com.example.vkr_healthy_nutrition.HealthyNutritionApp
 import com.example.vkr_healthy_nutrition.R
 import com.example.vkr_healthy_nutrition.data.local.entities.WaterIntakeEntity
 import com.example.vkr_healthy_nutrition.ui.viewmodel.WaterIntakeViewModel
@@ -109,7 +109,6 @@ class MonthStatsFragment : Fragment() {
             recordsInMonth.sumOf { it.amount } // Суммируем объем за месяц
         }
 
-        // Поскольку мы в "месячном" фрагменте, ожидается одна группа (текущий месяц)
         val monthEntry = entriesByMonth.entries.firstOrNull()
 
         val entries = if (monthEntry != null) {
@@ -133,9 +132,9 @@ class MonthStatsFragment : Fragment() {
         val xAxis = statsChart.xAxis
         xAxis.position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
         xAxis.granularity = 1f // Шаг в 1 (одна метка для месяца)
-        xAxis.setDrawGridLines(false) // Отключаем сетку по оси X
-        xAxis.textColor = android.graphics.Color.BLACK // Цвет текста оси X
-        xAxis.axisLineColor = android.graphics.Color.BLACK // Цвет линии оси X
+        xAxis.setDrawGridLines(false)
+        xAxis.textColor = android.graphics.Color.BLACK
+        xAxis.axisLineColor = android.graphics.Color.BLACK
 
         // Создаем форматтер для отображения месяца и года
         val monthYearFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault())
@@ -147,11 +146,10 @@ class MonthStatsFragment : Fragment() {
 
         xAxis.valueFormatter = object : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                 // Для одной записи всегда возвращаем метку месяца/года
                  return monthYearLabel
             }
         }
-        xAxis.setLabelCount(1, true) // Отображаем только одну метку
+        xAxis.setLabelCount(1, true)
 
         val yAxis = statsChart.axisLeft
         yAxis.axisMinimum = 0f

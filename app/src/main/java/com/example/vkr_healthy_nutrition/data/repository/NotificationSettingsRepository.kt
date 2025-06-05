@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await // Import await for Tasks
 import com.google.firebase.firestore.SetOptions // Import SetOptions
 import kotlinx.coroutines.flow.firstOrNull // Import firstOrNull
 
-private const val TAG = "NotificationSettingsRepository" // Define TAG for logging
+private const val TAG = "NotificationSettingsRepository"
 
 class NotificationSettingsRepository(
     private val notificationSettingsDao: NotificationSettingsDao,
@@ -108,7 +108,7 @@ class NotificationSettingsRepository(
                 notificationSettingsDao.saveNotificationSettings(settings)
             } else {
                 Log.d(TAG, "syncNotificationSettingsFromFirestore: No settings found in Firestore for user $userId.")
-                // Опционально: создать дефолтные настройки локально, если их нет нигде
+
             }
 
             Log.d(TAG, "syncNotificationSettingsFromFirestore: Synced settings from Firestore for user $userId.")
