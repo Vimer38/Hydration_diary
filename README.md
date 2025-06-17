@@ -90,24 +90,5 @@ git clone https://github.com/your-username/hydration-diary.git
 
 ## Структура проекта
 
-app/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/example/vkr_healthy_nutrition/
-│   │   │       ├── auth/           # Аутентификация
-│   │   │       ├── core/           # Общие компоненты
-│   │   │       ├── data/           # Слой данных
-│   │   │       │   ├── local/      # Локальное хранение
-│   │   │       │   └── repository/ # Репозитории
-│   │   │       └── ui/             # Пользовательский интерфейс
-│   │   │           ├── activities/ # Активности
-│   │   │           ├── base/       # Базовые классы
-│   │   │           ├── dialogs/    # Диалоги
-│   │   │           ├── receivers/  # Приемники
-│   │   │           └── stats/      # Статистика
-│   │   ├── res/                    # Ресурсы
-│   │   └── AndroidManifest.xml
-│   └── test/                     
-├── build.gradle.kts                
-└── proguard-rules.pro             
+![image](https://github.com/user-attachments/assets/fd8dd184-802e-4b8c-b902-22ff1236224a)
+      
